@@ -378,7 +378,7 @@ uint32_t PipeState::MultiviewBroadcastCount() const
 {
   if(IsCaptureLoaded() && IsCaptureVK())
   {
-    return std::max((uint32_t)m_Vulkan->currentPass.renderpass.multiviews.size(), 1U);
+    return std::max<uint32_t>((uint32_t)m_Vulkan->currentPass.renderpass.multiviews.size(), 1U);
   }
 
   return 1;
@@ -544,7 +544,7 @@ uint32_t PipeState::GetStripRestartIndex() const
     }
     else if(IsCaptureGL())
     {
-      return std::min(UINT32_MAX, m_GL->vertexInput.restartIndex);
+      return std::min<uint32_t>(UINT32_MAX, m_GL->vertexInput.restartIndex);
     }
   }
 
@@ -1296,7 +1296,7 @@ rdcarray<BoundResourceArray> PipeState::GetReadOnlyResources(ShaderStage stage, 
             if(onlyUsed && val.empty())
             {
               firstIdx = (uint32_t)element.firstUsedIndex;
-              count = std::min(count - firstIdx,
+              count = std::min<uint32_t>(count - firstIdx,
                                size_t(element.lastUsedIndex - element.firstUsedIndex + 1));
 
               ret.back().firstIndex = (int32_t)firstIdx;
@@ -1378,7 +1378,7 @@ rdcarray<BoundResourceArray> PipeState::GetReadOnlyResources(ShaderStage stage, 
             {
               firstIdx = (uint32_t)bind.firstUsedIndex;
               count =
-                  std::min(count - firstIdx, uint32_t(bind.lastUsedIndex - bind.firstUsedIndex + 1));
+                  std::min<uint32_t>(count - firstIdx, uint32_t(bind.lastUsedIndex - bind.firstUsedIndex + 1));
             }
 
             rdcarray<BoundResource> &val = ret.back().resources;
@@ -1437,7 +1437,7 @@ rdcarray<BoundResourceArray> PipeState::GetReadWriteResources(ShaderStage stage,
       {
         int uavstart = (int)m_D3D11->outputMerger.uavStartSlot;
 
-        ret.reserve(m_D3D11->outputMerger.uavs.size() + std::max(0, uavstart));
+        ret.reserve(m_D3D11->outputMerger.uavs.size() + std::max<uint32_t>(0, uavstart));
 
         // up to UAVStartSlot treat these bindings as empty.
         for(int i = 0; i < uavstart; i++)
@@ -1497,7 +1497,7 @@ rdcarray<BoundResourceArray> PipeState::GetReadWriteResources(ShaderStage stage,
             if(onlyUsed && val.empty())
             {
               firstIdx = (uint32_t)element.firstUsedIndex;
-              count = std::min(count - firstIdx,
+              count = std::min<uint32_t>(count - firstIdx,
                                size_t(element.lastUsedIndex - element.firstUsedIndex + 1));
 
               ret.back().firstIndex = (int32_t)firstIdx;
@@ -1575,7 +1575,7 @@ rdcarray<BoundResourceArray> PipeState::GetReadWriteResources(ShaderStage stage,
             {
               firstIdx = (uint32_t)bind.firstUsedIndex;
               count =
-                  std::min(count - firstIdx, uint32_t(bind.lastUsedIndex - bind.firstUsedIndex + 1));
+                  std::min<uint32_t>(count - firstIdx, uint32_t(bind.lastUsedIndex - bind.firstUsedIndex + 1));
             }
 
             rdcarray<BoundResource> &val = ret.back().resources;

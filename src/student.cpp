@@ -33,6 +33,7 @@ MessageCallback(GLenum source,
 GLFWwindow* window = nullptr;
 GLuint vertexArrayId;
 GLuint vertexBufferId;
+GLuint vertexBufferId2;
 
 bool Lab01::setup() {
     glfwSetErrorCallback(GLFWErrorCallback);
@@ -103,6 +104,23 @@ bool Lab01::setup() {
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, nullptr);
     glEnableVertexAttribArray(0);
 
+    GLfloat triangle2[4*2] = {
+		-0.5f, -0.5f,
+		0.5f, -0.5f,
+		0.0f, 0.5f,
+		0.0f, 0.5f
+    };
+
+
+    // Create a vertex buffer
+    glGenBuffers(1, &vertexBufferId2);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId2);
+
+    // Populate the vertex buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangle2), triangle2, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, nullptr);
+    glEnableVertexAttribArray(0);
+
         // Vertex shader code
 	const std::string vertexShaderSrc = R"(
 #version 430 core
@@ -164,7 +182,10 @@ bool Lab01::run() {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId2);
+	glDrawArrays(GL_TRIANGLES, 0, 4);
 
 	glfwSwapBuffers(window);
 

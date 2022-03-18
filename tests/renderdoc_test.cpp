@@ -3,6 +3,7 @@
 #include "renderdoc_helper.hpp"
 
 
+
 REPLAY_PROGRAM_MARKER();
 
 bool parse_arguments(argparse::ArgumentParser& parser, int argc, char* argv[]) {
@@ -20,6 +21,11 @@ bool parse_arguments(argparse::ArgumentParser& parser, int argc, char* argv[]) {
 }
 
 int renderdoc_test(int argc, char* argv[]) {
+
+	//RenderDocHelper helper(R"(G:\repos\test_framework_tester\tmp\TestFramework\capture_frame5.rdc)");
+	//helper.open_capture();
+	//helper.dump_actions();
+	//return 0;
 	argparse::ArgumentParser parser("test_framework");
 	if (!parse_arguments(parser, argc, argv))
 		return -1;
@@ -28,6 +34,7 @@ int renderdoc_test(int argc, char* argv[]) {
 
 	RenderDocHelper helper(R"(G:\repos\test_framework_tester\tmp\TestFramework\capture_frame5.rdc)");
 	helper.open_capture();
+	helper.dump_actions();
 
 	if (expected_drawcalls_count != -1) {
 		if (const auto drawcalls_count = helper.drawcalls_count();

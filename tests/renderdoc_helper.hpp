@@ -2,6 +2,17 @@
 #include <string>
 #include "../external/renderdoc/api/replay/renderdoc_replay.h"
 
+struct MeshAttribute {
+	MeshFormat mesh;
+	rdcstr name;
+};
+
+struct MeshData {
+	MeshFormat mesh;
+	rdcarray<MeshAttribute> attrs;
+	int first_index;
+	rdcarray<uint32_t> indices;
+};
 
 class RenderDocHelper {
 public:
@@ -19,6 +30,19 @@ private:
 			}
 		}
 		return ActionDescription{};
+	}
+	MeshData get_vsin_mesh_data(ActionDescription action, int first_index = 0, int num_indices = 0);
+	rdcarray<MeshAttribute> get_vsin_attrs(int vertexOffset, MeshFormat index_mesh);
+	rdcarray<uint32_t> fetch_indices(MeshFormat mesh, int index_offset, int first_index, int num_indices);
+
+	void get_vsin(ActionDescription action, int first_index = 0, int num_indices = 0, int instance = 0, int view = 0);
+	bytebuf get_thumbnail() const {
+		return m_capture_file->GetThumbnail(FileType::PNG, 0).data;
+	}
+
+	bytebuf get_ext_thumbnail() const {
+		const auto ext_thumb = m_capture_file->FindSectionByType(SectionType::ExtendedThumbnail);
+		return m_capture_file->GetSectionContents(ext_thumb);
 	}
 
 private:

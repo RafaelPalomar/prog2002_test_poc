@@ -17,6 +17,7 @@ add_subdirectory(external/glm)
 add_subdirectory(external/pugixml)
 add_subdirectory(external/fmt)
 add_subdirectory(external/miniz)
+add_subdirectory(external/cppystruct)
 
 
 add_executable (test_framework 
@@ -34,7 +35,7 @@ add_executable (test_framework
 
 
 target_compile_features(test_framework PRIVATE cxx_std_17)
-target_link_libraries(test_framework glfw glad glm OpenGL::GL pugixml fmt miniz "G:/repos/renderdoc/x64/Release/renderdoc.lib")
+target_link_libraries(test_framework glfw glad glm OpenGL::GL pugixml fmt miniz CPPYSTRUCT "G:/repos/renderdoc/x64/Release/renderdoc.lib")
 target_include_directories(test_framework PRIVATE "external" "external/include" "external/pugixml/src")
 
 add_subdirectory(tests)
